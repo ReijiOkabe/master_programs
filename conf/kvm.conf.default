@@ -1,0 +1,102 @@
+[kvm]
+# Specify a comma-separated list of available machines to be used. For each
+# specified ID you have to define a dedicated section containing the details
+# on the respective machine. (E.g. cuckoo1,cuckoo2,cuckoo3)
+machines = win10,win10-1,win10-2,win10-3,win10-4,win10-5,win10-6,win10-7,win10-8,win10-9
+
+interface = virbr0
+# To connect to local or remote host
+dsn = qemu:///system
+
+# To allow copy & paste. For details see example below
+[cape1]
+label = cape1
+platform = windows
+ip = 192.168.122.105
+arch = x86
+# tags = winxp,acrobat_reader_6
+# snapshot = Snapshot1
+# resultserver_ip = 192.168.122.101
+# reserved = no
+[win10]
+label = win10
+platform = windows
+ip = 192.168.55.2
+snapshot = capesnapshot
+interface = virbr1
+resultserver_ip = 192.168.55.1
+arch = x64
+[win10-1]
+label = win10-1
+platform = windows
+ip = 192.168.55.3
+snapshot = capesnapshot1
+interface = virbr1
+resultserver_ip = 192.168.55.1
+arch = x64
+[win10-2]
+label = win10-2
+platform = windows
+ip = 192.168.55.4
+snapshot = capesnapshot2
+interface = virbr1
+resultserver_ip = 192.168.55.1
+arch = x64
+[win10-3]
+label = win10-3
+platform = windows
+ip = 192.168.55.5
+snapshot = capesnapshot3
+interface = virbr1
+resultserver_ip = 192.168.55.1
+arch = x64
+[win10-4]
+label = win10-4
+platform = windows
+ip = 192.168.55.6
+snapshot = capesnapshot4
+interface = virbr1
+resultserver_ip = 192.168.55.1
+arch = x64
+[win10-5]
+label = win10-5
+platform = windows
+ip = 192.168.55.7
+snapshot = capesnapshot5
+interface = virbr1
+resultserver_ip = 192.168.55.1
+arch = x64
+[win10-6]
+label = win10-6
+platform = windows
+ip = 192.168.55.8
+snapshot = capesnapshot6
+interface = virbr1
+resultserver_ip = 192.168.55.1
+arch = x64
+[win10-7]
+label = win10-7
+platform = windows
+ip = 192.168.55.9
+snapshot = capesnapshot7
+interface = virbr1
+resultserver_ip = 192.168.55.1
+arch = x64
+[win10-8]
+label = win10-8
+platform = windows
+ip = 192.168.55.10
+snapshot = capesnapshot8
+interface = virbr1
+resultserver_ip = 192.168.55.1
+arch = x64
+[win10-9]
+label = win10-9
+platform = windows
+ip = 192.168.55.11
+snapshot = capesnapshot9
+interface = virbr1
+resultserver_ip = 192.168.55.1
+arch = x64
+
+
