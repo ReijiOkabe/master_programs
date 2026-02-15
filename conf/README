@@ -1,0 +1,59 @@
+以下にCAPEv2の詳しい設定内容を記述する
+また，これ以外の設定は以下のGitHubのリンクにあるconfファイルを用いて作成した． 
+https://github.com/ReijiOkabe/master_programs/tree/main/conf
+
+ホスト側の環境設定
+•	Proxy設定
+•	exportコマンドで設定
+•	apt,git,wget,curl,bashrc,pipに設定→のちcurlは削除
+•	Sudo回り
+•	実行権限:sudo usermod -aG sudo cape
+•	環境設定の引継ぎ：Defaults:%sudo env_keep += "http_proxy https_proxy ftp_proxy all_proxy no_proxy"
+•	CAPEv2インストール
+•	githubの現行のバージョンではエラーが発生→git clone後巻き戻し
+		git checkout 6dc86b5195c4e55220d224489bd052df5fab4984
+•	インストールコマンドのWireSharkのインストール時オプションが選択できないエラー発生，該当のスクリプトを手動実行後該当箇所を削除，再実行
+•	実行権限を+ｘからa+x(すべてのユーザーに使えるように)に変更して実行
+
+仮想環境内の設定
+•	OS
+•	Windows10　22H2を使用
+参考にしたサイトは20H2を使用していたが，Microsoftからダウンロード出来たのは22H2
+•	仮想環境内の設定
+•	仮想環境内でインターネット使うにはこちらでもプロキシ設定が必要
+•	WindowsDefenderFirewallをオフ
+•	Gpedit.mscをインストール
+•	Gpedit.msc内で設定項目が無かったためリアルタイム保護を無効にする　Windows Defenderウイルス対策を無効にする　はWindowsDefenderの設定画面から設定
+•	ユーザーアカウント制御（UAC）の無効化
+•	ノイズの多いネットワークサービスの無効(teredo無効，LLLMR無効，インターネット通信を制限する」を有効)
+•	クラウド提供の保護
+•	サンプルの自動送信
+•	改ざん防止
+•	Python 3.12.0 32bit
+•	通知系
+•	Virus & threat protection notifications 
+•	Firewall & network protection notifications
+•	その他
+•	Doenload　Document　Desktopにファイルとフォルダを配置
+•	fsutil file createnew result.txt 104853460 でランサムウェアが処理する用の0埋めのtxtファイルを作製した
+•	Chromeのインストール
+•	ゴミ箱にファイル入れる
+•	環境構築時に使用したプロキシ設定を削除
+•	Python.exeではなくpythonw.exeで実行し，バックグラウンドでプログラムが実行できるように
+エラーの対処
+•	サーバー立ち上がらないのでJornalctlで確認した結果一部パッケージがないのでpoetryでインストールを行った
+Journalctl –u cape.service –b –no-pagerで確認
+cd /etc/CAPEv2でpoetryに移動後 以下のパッケージが無かったため手動でコマンド実行
+poetry add "click>=8.1.3"	:Flask 3.1.0 対応のため
+poetry add "Pillow>=8"	:matplotlib 対応のため
+poetry add "olefile>=0.46“	: msoffcrypto-tool 対応のため
+•	またMONGODBがインストールされてないのでそちらも対応した
+aptで入れられないのでリポジトリ設定削除後GPGキー追加しaptにリポジトリ追加を行いインストールを行った
+sudo rm /etc/apt/sources.list.d/mongodb-org-*.list
+curl -fsSL https://pgp.mongodb.com/server-6.0.asc | \
+  sudo gpg -o /usr/share/keyrings/mongodb-server-6.0.gpg \
+  --dearmor
+echo "deb [ signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" | \
+sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+sudo apt update
+sudo apt install -y mongodb-org
